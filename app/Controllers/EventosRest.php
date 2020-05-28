@@ -23,7 +23,9 @@ class EventosRest extends ResourceController
     }
     public function create()
     {
-        if (! $this->model->validate())
+        $data = $this->request->getRawInput();
+
+        if (! $this->model->validate($data))
         {
             $messages=$this->model->errors();          
             return $this->fail($messages);     
