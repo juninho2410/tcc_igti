@@ -5,7 +5,7 @@ TCC.EVENTO = (function () {
       name:"evento",
       id:"idEvento",
       modalId: "modal-register",
-      urlAPI:"/api/eventos/",
+      urlAPI:"/api/eventos",
       urlRedirect:"/eventos/",
       tableId: "eventosList"
   }
@@ -85,7 +85,7 @@ TCC.EVENTO = (function () {
       update: function(data){
         $.ajax({
           method: "PUT",
-          url: formFields.urlAPI+data.idEvento,
+          url: formFields.urlAPI+'/'+data.idEvento,
           data: data.formData,
           dataType: "json",
           statusCode: {
@@ -97,7 +97,7 @@ TCC.EVENTO = (function () {
       delete: function(data){
         $.ajax({
           method: "DELETE",
-          url: formFields.urlAPI+data.idEvento,
+          url: formFields.urlAPI+'/'+data.idEvento,
           dataType: "json",
           statusCode: {
               400: errorValidate

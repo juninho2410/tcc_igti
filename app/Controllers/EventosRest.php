@@ -33,6 +33,7 @@ class EventosRest extends ResourceController
                 'descricao' => $this->request->getVar('descricao'),
                 'localizacao'  => $this->request->getVar('localizacao'),
                 'valor_full'  => $this->request->getVar('valor_full'),
+                'valor_desconto'  => $this->request->getVar('valor_desconto'),
                 
                 ])
             ){
