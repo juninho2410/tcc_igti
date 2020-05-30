@@ -29,10 +29,10 @@ class EventoModel extends Model
 
     protected function cleanNumberField(array $data){
         
-
-        $str = preg_replace('/\D/', '', $data['data']['valor_full']);
-        
-        $data['data']['valor_full'] = \number_format($str, 2, '.', '');
+        if(isset($data['data']['valor_full'])){
+            $str = preg_replace('/\D/', '', $data['data']['valor_full']);
+            $data['data']['valor_full'] = \number_format($str, 2, '.', '');
+        }
        return $data; 
     }
 
