@@ -30,3 +30,4 @@ jobs:
       with:     
         config: phpunit.xml.dist
         bootstrap: system/Test/bootstrap.php
+        memory: 256M
