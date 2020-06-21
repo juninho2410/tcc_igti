@@ -21,7 +21,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Install extensions
       run : |          
-          apt-get install php-intl.x86_64   
+          sudo apt-get install php-intl.x86_64   
     - name: Composer
       uses: php-actions/composer@v1
     - name: Run Unit Tests
