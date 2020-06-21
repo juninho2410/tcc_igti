@@ -22,7 +22,7 @@ jobs:
     - name: Install extensions
       run : |          
           sudo apt-get install php7.2-intl
-          phpenmod -s intl   
+          phpenmod -v 7.2 -s ALL intl
     - name: Composer
       uses: php-actions/composer@v1
     - name: Run Unit Tests
