@@ -26,7 +26,8 @@ jobs:
         tools: pecl
         extensions: intl
     - name: Composer
-      uses: php-actions/composer@v1
+        run:|
+          composer install --no-ansi --no-interaction --no-suggest --prefer-dist
     - name: Run Unit Tests
       run: |
         cd $GITHUB_WORKSPACE
