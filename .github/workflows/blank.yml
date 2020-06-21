@@ -1,14 +1,37 @@
-name: Node CI
+name: CI
 
-on: [push]
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on: 
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build:
-
+  # This workflow contains a single job called "build"
+  unit-test:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - uses: actions/checkout@v1
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: clone
+      uses: actions/checkout@v2
+    - name: Install extensions
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+        tools: pecl
+        extensions: intl
+    - name: Composer
+      run: |
+          composer install --no-ansi --no-interaction --no-suggest --prefer-dist
+    - name: Run Unit Tests
+      run: |
+        cd $GITHUB_WORKSPACE
+        ./vendor/bin/phpunit
     - name: Install Node.js
       uses: actions/setup-node@v1
       with:
@@ -25,3 +48,4 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           REMOTE_PORT: ${{ secrets.REMOTE_PORT }} 
           TARGET: ${{ secrets.REMOTE_TARGET }}
+
