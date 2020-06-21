@@ -20,11 +20,12 @@ jobs:
     - name: clone
       uses: actions/checkout@v2
     - name: Install extensions
-      run : |          
-          sudo apt-get install php7.2-intl
-          sudo phpenmod -v 7.2 -s ALL intl
-          cat phpunit.xml.dist
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.2'
+        tools: pecl
+        extensions: intl
     - name: Run Unit Tests
       uses: php-actions/phpunit@v1
       with:     
-        config: phpunit.xml.dist
+        config: $GITHUB_WORKSPACE/phpunit.xml.dist
