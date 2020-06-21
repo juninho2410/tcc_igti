@@ -55,7 +55,6 @@ jobs:
 on: 
   pull_request:
     branches: [ master ]
-    types: [assigned, opened, synchronize, reopened]
 jobs:
   # This workflow contains a single job called "build"
   unit-test:
