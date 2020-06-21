@@ -14,7 +14,7 @@ class EventosRest extends ResourceController
 
     public function show($id = null)
     {
-        if (($object = $this->ensureExists($id)) instanceof ResponseInterface)
+        if (($object = $this->ensureExists($id)) instanceof \CodeIgniter\HTTP\ResponseInterface)
 		{
 			return $object;
 		}
@@ -28,15 +28,14 @@ class EventosRest extends ResourceController
         if (! $this->model->validate($data))
         {
             $messages=$this->model->errors();          
-            return $this->fail($messages);     
+            return $this->fail($messages,400,null,$customMessage='Create Failed');     
         }
         else{
             if( ! $id =  $this->model->save([
-                'descricao' => $this->request->getVar('descricao'),
-                'localizacao'  => $this->request->getVar('localizacao'),
-                'valor_full'  => $this->request->getVar('valor_full'),
-                'valor_desconto'  => $this->request->getVar('valor_desconto'),
-                
+                'descricao' => $data['descricao'],
+                'localizacao'  => $data['localizacao'],
+                'valor_full'  => $data['valor_full'],
+                'valor_desconto'  => isset($data['valor_desconto'])?$data['valor_desconto']:null
                 ])
             ){
                 
@@ -50,9 +49,11 @@ class EventosRest extends ResourceController
 
             }
             else{
+                $insertId = $this->model->getInsertID();
                 $response = [
                     'status'   => 201,
-                    'messages' => "Criado com sucesso"
+                    'messages' => "Criado com sucesso",
+                    'id' => $insertId
                 ];
                 return $this->respondCreated($response, "Criado com sucesso");
             }      
@@ -63,12 +64,12 @@ class EventosRest extends ResourceController
 	{
         $data = $this->request->getRawInput();
         
-		if (($object = $this->ensureExists($id)) instanceof ResponseInterface)
+		if (($object = $this->ensureExists($id)) instanceof \CodeIgniter\HTTP\ResponseInterface)
 		{
 			return $object;
 		}
 
-        
+            $this->model->setCleanValidationRules(true);
             if (! $this->model->validate($data))
             {
                 $messages=$this->model->errors();
@@ -90,7 +91,7 @@ class EventosRest extends ResourceController
     }
     public function delete($id = null)
 	{
-        if (($object = $this->ensureExists($id)) instanceof ResponseInterface)
+        if (($object = $this->ensureExists($id)) instanceof \CodeIgniter\HTTP\ResponseInterface)
 		{
 			return $object;
         }
@@ -107,7 +108,8 @@ class EventosRest extends ResourceController
     }
 	protected function ensureExists($id = null)
 	{
-		if ($object = $this->model->find($id))
+        $object = $this->model->find($id);
+		if ($object)
 		{
 			return $object;
 		}
