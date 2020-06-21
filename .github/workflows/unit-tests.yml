@@ -23,7 +23,7 @@ jobs:
       run : |          
           sudo apt-get install php7.2-intl
           sudo phpenmod -v 7.2 -s ALL intl
-          sudo composer update
+          sudo service httpd restart
     - name: Composer
       uses: php-actions/composer@v1
     - name: Run Unit Tests
