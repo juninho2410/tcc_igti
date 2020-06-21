@@ -18,10 +18,10 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: clone
-    - uses: actions/checkout@v2
+      uses: actions/checkout@v2
     - name: Composer
-    - uses: php-actions/composer@v1
+      uses: php-actions/composer@v1
     - name: Run Unit Tests
-    - uses: php-actions/phpunit@v1
-    - with:     
+      uses: php-actions/phpunit@v1
+      with:     
         config: phpunit.xml.dist
