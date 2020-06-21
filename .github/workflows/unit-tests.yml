@@ -28,4 +28,5 @@ jobs:
     - name: Run Unit Tests
       uses: php-actions/phpunit@v1
       with:     
-        config: $GITHUB_WORKSPACE/phpunit.xml.dist
+        config: phpunit.xml.dist
+        bootstrap: system/Test/bootstrap.php
