@@ -26,6 +26,7 @@ class EventoModel extends Model
         ]
     ];
     protected $beforeUpdate = ['cleanNumberField'];
+    protected $cleanValidationRules = false;
 
     protected function cleanNumberField(array $data){
         
@@ -35,7 +36,9 @@ class EventoModel extends Model
         }
        return $data; 
     }
-
+    public function setCleanValidationRules($val){
+        $this->cleanValidationRules = $val;
+    }
     public function getEvento($descricao = false)
     {
         if ($descricao === false)
@@ -47,7 +50,7 @@ class EventoModel extends Model
                     ->where(['descricao' => $descricao])
                     ->first();
     }
-
+/*
     public function find($id = false)
     {
         if ($id === false)
@@ -59,5 +62,5 @@ class EventoModel extends Model
                     ->where(['idEvento' => $id])
                     ->first();
     }
-
+*/
 }
