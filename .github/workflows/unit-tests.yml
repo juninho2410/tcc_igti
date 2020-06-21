@@ -19,6 +19,10 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: clone
       uses: actions/checkout@v2
+    - name: Install extensions
+      run : |
+          yum list php*intl
+          yum install php-intl.x86_64   
     - name: Composer
       uses: php-actions/composer@v1
     - name: Run Unit Tests
