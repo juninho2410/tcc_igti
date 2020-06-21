@@ -25,6 +25,8 @@ jobs:
         php-version: '7.2'
         tools: pecl
         extensions: intl
+    - name: Composer
+      uses: php-actions/composer@v1
     - name: Run Unit Tests
       run: |
         cd $GITHUB_WORKSPACE
