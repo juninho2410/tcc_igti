@@ -10,7 +10,7 @@ on:
     types: [closed]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
+job1:
   # This workflow contains a single job called "build"
   unit-test:
     # The type of runner that the job will run on
@@ -55,7 +55,7 @@ jobs:
 on: 
   pull_request:
     branches: [ master ]
-jobs:
+job2:
   # This workflow contains a single job called "build"
   unit-test:
     # The type of runner that the job will run on
