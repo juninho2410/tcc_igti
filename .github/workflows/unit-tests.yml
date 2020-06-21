@@ -26,8 +26,4 @@ jobs:
         tools: pecl
         extensions: intl
     - name: Run Unit Tests
-      uses: php-actions/phpunit@v1
-      with:     
-        bootstrap: system/Test/bootstrap.php
-        config: phpunit.xml.dist
-        memory: 256M
+      run: ./vendor/bin/phpunit
