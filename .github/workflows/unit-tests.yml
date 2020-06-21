@@ -28,6 +28,6 @@ jobs:
     - name: Run Unit Tests
       uses: php-actions/phpunit@v1
       with:     
-        config: phpunit.xml.dist
         bootstrap: system/Test/bootstrap.php
+        config: phpunit.xml.dist
         memory: 256M
