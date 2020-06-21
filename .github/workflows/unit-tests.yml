@@ -26,7 +26,7 @@ jobs:
         tools: pecl
         extensions: intl
     - name: Composer
-        run:|
+      run: |
           composer install --no-ansi --no-interaction --no-suggest --prefer-dist
     - name: Run Unit Tests
       run: |
