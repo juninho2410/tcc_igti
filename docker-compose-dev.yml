@@ -1,0 +1,8 @@
+version: '3.1'
+services:
+    app:
+        environment:
+            CI_ENVIRONMENT: development
+            WEB_DOCUMENT_ROOT: /app-code/tcc_igti/public
+        volumes:
+            - .:/app-code/tcc_igti
