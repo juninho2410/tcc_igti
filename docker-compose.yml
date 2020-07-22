@@ -1,0 +1,35 @@
+version: '3.1'
+services:
+    app:
+        build: .
+        environment:
+            MYSQL_DB_HOST: mysql
+            MYSQL_DB_NAME: tcc
+            MYSQL_DB_USER: application
+            MYSQL_DB_PASSWORD: application
+            CI_ENVIRONMENT: development
+            WEB_DOCUMENT_ROOT: /app
+        networks:
+            - tcc
+        volumes:
+            - .:/app
+        ports:
+            - 80:80
+    mysql:
+        build: 
+            dockerfile: mysql.Dockerfile
+            context: .
+        environment:
+            MYSQL_ROOT_PASSWORD: admin
+            MYSQL_DATABASE: tcc
+            MYSQL_USER: application
+            MYSQL_PASSWORD: application
+        volumes:
+            - mysqldb:/var/lib/mysql
+        networks:
+            - tcc
+volumes:
+    mysqldb:
+    site:
+networks:
+    tcc:
