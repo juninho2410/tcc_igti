@@ -53,7 +53,6 @@ class Eventos extends ResourcePresenter
 		{
 			return $object;
 		}
-		
         $data = ['evento' => $object,
                  'title'=>'Editar',
                  'page'=>'edit',
@@ -92,7 +91,7 @@ class Eventos extends ResourcePresenter
 
     protected function ensureExists($id = null)
 	{
-		if ($object = $this->model->find($id))
+		if ($object = $this->model->getDetalhesEvento($id))
 		{
 			return $object;
 		}

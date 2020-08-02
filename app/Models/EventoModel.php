@@ -25,7 +25,7 @@ class EventoModel extends Model
             'regex_match'=>'O campo deve conter somente números'
         ]
     ];
-    protected $beforeUpdate = ['cleanNumberField'];
+   // protected $beforeUpdate = ['cleanNumberField'];
     protected $cleanValidationRules = false;
 
     protected function cleanNumberField(array $data){
@@ -39,16 +39,20 @@ class EventoModel extends Model
     public function setCleanValidationRules($val){
         $this->cleanValidationRules = $val;
     }
-    public function getEvento($descricao = false)
+    public function getDetalhesEvento($id = false)
     {
-        if ($descricao === false)
+        if ($id === false)
         {
-            return $this->findAll();
+            return false;
         }
-    
-        return $this->asArray()
-                    ->where(['descricao' => $descricao])
-                    ->first();
+        $builder = $this->table('evento')
+                ->select('*')
+                ->join('detalhes_evento', 'evento.idEvento = detalhes_evento.id_evento')
+                ->where(['idEvento' => $id])
+                ->get();
+        
+        return $builder->getRowArray();
+                    
     }
 /*
     public function find($id = false)

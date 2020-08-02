@@ -33,6 +33,7 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 $routes->match(['get', 'post'], 'Eventos/create', 'Eventos::create');
 $routes->resource('/api/eventos',['controller' => 'EventosRest']);
+$routes->resource('/api/detalhes-evento',['controller' => 'DetalhesEventosRest']);
 $routes->presenter('eventos', ['controller' =>'Eventos']);
 
 /**

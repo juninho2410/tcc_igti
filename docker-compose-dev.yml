@@ -3,6 +3,8 @@ services:
     app:
         environment:
             CI_ENVIRONMENT: development
-            WEB_DOCUMENT_ROOT: /app-code/tcc_igti/public
+            XDEBUG_REMOTE_CONNECT_BACK: 1
+            XDEBUG_REMOTE_AUTOSTART: 1
+            XDEBUG_REMOTE_PORT: 9002
         volumes:
             - .:/app-code/tcc_igti

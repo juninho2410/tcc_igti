@@ -7,14 +7,18 @@ services:
             MYSQL_DB_NAME: tcc
             MYSQL_DB_USER: application
             MYSQL_DB_PASSWORD: application
-            CI_ENVIRONMENT: development
-            WEB_DOCUMENT_ROOT: /app
+            CI_ENVIRONMENT: development 
+            WEB_DOCUMENT_ROOT: /app-code/tcc_igti/public
+            XDEBUG_REMOTE_CONNECT_BACK: 1
+            XDEBUG_REMOTE_AUTOSTART: 1
+            XDEBUG_REMOTE_PORT: 9002
         networks:
             - tcc
-        volumes:
-            - .:/app
         ports:
             - 80:80
+        volumes:
+            - .:/app-code/tcc_igti
+        stdin_open: true
     mysql:
         build: 
             dockerfile: mysql.Dockerfile
