@@ -12,19 +12,19 @@ use Config\Services;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\Request;
 
-const HEADER_FORM_URLENCODED = 'application/x-www-form-urlencoded';
-const HTTP_CODE_CREATE = 201;
-const HTTP_MESSAGE_CREATE = 'Criado com sucesso';
-const HTTP_CODE_OK = 200;
-const HTTP_CODE_ERROR = 400;
-const HTTP_CODE_ERROR_NOT_FOUND = 404;
-const HTTP_MESSAGE_ERROR_CREATE = 'Create Failed';
-const HTTP_MESSAGE_ERROR_NOT_FOUND = 'Não encontrado';
-const HTTP_MESSAGE_ERROR_NOT_FOUND_2 = 'Not Found';
-const HTTP_MESSAGE_UPDATE = 'Evento Atualizado';
-const HTTP_MESSAGE_UPDATE_2 = 'Atualizado com sucesso';
-const HTTP_MESSAGE_DELETE = 'Evento apagado com sucesso';
-const HTTP_MESSAGE_DELETE_2 = 'Apagado com sucesso';
+if (!defined('HEADER_FORM_URLENCODED')) define('HEADER_FORM_URLENCODED','application/x-www-form-urlencoded');
+if (!defined('HTTP_CODE_CREATE')) define('HTTP_CODE_CREATE',201);
+if (!defined('HTTP_MESSAGE_CREATE')) define('HTTP_MESSAGE_CREATE','Criado com sucesso');
+if (!defined('HTTP_CODE_OK')) define('HTTP_CODE_OK',200);
+if (!defined('HTTP_CODE_ERROR')) define('HTTP_CODE_ERROR',400);
+if (!defined('HTTP_CODE_ERROR_NOT_FOUND')) define('HTTP_CODE_ERROR_NOT_FOUND',404);
+if (!defined('HTTP_MESSAGE_ERROR_CREATE')) define('HTTP_MESSAGE_ERROR_CREATE','Create Failed');
+if (!defined('HTTP_MESSAGE_ERROR_NOT_FOUND')) define('HTTP_MESSAGE_ERROR_NOT_FOUND','Não encontrado');
+if (!defined('HTTP_MESSAGE_ERROR_NOT_FOUND_2')) define('HTTP_MESSAGE_ERROR_NOT_FOUND_2','Not Found');
+if (!defined('HTTP_MESSAGE_UPDATE')) define('HTTP_MESSAGE_UPDATE','Evento Atualizado');
+if (!defined('HTTP_MESSAGE_UPDATE_2')) define('HTTP_MESSAGE_UPDATE_2','Atualizado com sucesso');
+if (!defined('HTTP_MESSAGE_DELETE')) define('HTTP_MESSAGE_DELETE','Evento apagado com sucesso');
+if (!defined('HTTP_MESSAGE_DELETE_2')) define('HTTP_MESSAGE_DELETE_2','Apagado com sucesso');
 /**
  * Exercise our Controller class.
  *
