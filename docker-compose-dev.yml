@@ -1,0 +1,10 @@
+version: '3.1'
+services:
+    app:
+        environment:
+            CI_ENVIRONMENT: development
+            XDEBUG_REMOTE_CONNECT_BACK: 1
+            XDEBUG_REMOTE_AUTOSTART: 1
+            XDEBUG_REMOTE_PORT: 9002
+        volumes:
+            - .:/app-code/tcc_igti

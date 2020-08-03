@@ -31,54 +31,10 @@ if (!defined('HTTP_MESSAGE_DELETE_2')) define('HTTP_MESSAGE_DELETE_2','Apagado c
  * @runTestsInSeparateProcesses
  * @preserveGlobalState         disabled
  */
-class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
+class ApiDetalhesEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
 {
 
-    protected $options = [
-        'create'=>[
-            'one_field'=>
-                [
-                    'descricao' => 'Teste Unitário only Descrição'
-                ],
-            'two_fields'=>[
-                'descricao' => 'Teste Unitário Update Descricao Localização',
-                'localizacao' => 'Localizacão Teste Unitario'
-            ],
-            'three_fields'=>[
-                'descricao' => 'Teste Unitário só Valor Full',
-                'localizacao' => 'Localizacão Teste Unitario só Valor Full',
-                'valor_full' =>20
-            ],
-            'complete'=>[
-                'descricao' => 'Teste Unitário Valor Full e Desconto',
-                'localizacao' => 'Localizacão Teste Unitario Valor Full e Desconto',
-                'valor_full' =>20,
-                'valor_desconto' =>10
-            ]
-        ],
-        'update'=>[
-            'one_field'=>[
-                'descricao' => 'Teste Unitário Update only Descrição'
-            ],
-            'two_fields'=>[
-                    'descricao' => 'Teste Unitário Update Descricao Localização',
-                    'localizacao' => 'Localizacão Teste Unitario'
-            ],
-            'three_fields'=>[
-                    'descricao' => 'Teste Unitário Update só Valor Full',
-                    'localizacao' => 'Localizacão Teste Unitario só Valor Full',    
-                    'valor_full' =>20
-            ],
-            'complete'=>[
-                    'descricao' => 'Teste Unitário Update Valor Full e Desconto',
-                    'localizacao' => 'Localizacão Teste Unitario Valor Full e Desconto',
-                    'valor_full' =>20,
-                    'valor_desconto' =>10
-            ]
-        ]
-    ];
-
-    use ControllerTester;
+        use ControllerTester;
     public function setUp(): void
 	{
 		parent::setUp();
@@ -88,12 +44,12 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
 	{
 		parent::tearDown();
     }
-    public function test_create_one_event_in_api(){
+    public function test_create_one_event_detail_in_api(){
         $code=0;
         $logger = new Logger(new LoggerConfig());
         $config = new App();
-        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&descricao=TEste1&localizacao=Localizacao&valor_full=50.00&valor_desconto=30.00';
-        $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/eventos'), $input, new UserAgent());
+        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&id_evento=1&data_evento_inicio=2020-07-23%2000:00:00&data_evento_fim=2020-07-23%2002:00:00';
+        $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/detalhes-eventos'), $input, new UserAgent());
         $request->setMethod('POST');
         $request->setHeader('Accept','application/json');
         $request->setHeader('Content-Type','application/x-www-form-urlencoded');
@@ -102,24 +58,27 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
 		$result = $this
                 ->withLogger($logger)
                 ->withRequest($request)
-				->controller(\App\Controllers\EventosRest::class)
-				->execute('create');
+				->controller(\App\Controllers\DetalhesEventosRest::class)
+                ->execute('create');
+                
+
         $body = json_decode($result->getBody());
         $code = $result->response()->getStatusCode();
         $reason = $result->response()->getReason();
+        
         $this->assertTrue($result->isOK());
         $this->assertEquals(HTTP_CODE_CREATE,$code);
         $this->assertEquals(HTTP_MESSAGE_CREATE,$reason);
         $this->assertEquals(HTTP_CODE_CREATE,$body->status);
         $this->assertEquals(HTTP_MESSAGE_CREATE,$body->messages);  
     }
-    public function test_get_specific_event_from_api()
+    public function test_get_specific_event_detail_from_api()
     {
 
         $logger = new Logger(new LoggerConfig());
-		$result = $this->withURI('http://tcc.localhost.com/api/eventos/1')
+		$result = $this->withURI('http://tcc.localhost.com/api/detalhes-eventos/1')
 				->withLogger($logger)
-				->controller(\App\Controllers\EventosRest::class)
+				->controller(\App\Controllers\DetalhesEventosRest::class)
 				->execute('show',1);
 
         $code = $result->response()->getStatusCode();
@@ -127,22 +86,20 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
         $body = json_decode($result->getBody())[0];
         
         $this->assertEquals(HTTP_CODE_OK,$code);
-        $this->assertEquals(1,$body->idEvento);
-        $this->assertEquals('TEste1',$body->descricao);
-        $this->assertEquals("Localizacao",$body->localizacao);
-        $this->assertEquals(50.0,$body->valor_full);
-        $this->assertEquals(30.0,$body->valor_desconto);
+        $this->assertEquals(1,$body->id_evento);
+        $this->assertEquals('2020-07-23 00:00:00',$body->data_evento_inicio);
+        $this->assertEquals('2020-07-23 02:00:00',$body->data_evento_fim);
         $this->assertTrue($result->isOK());    
 
         
     }
 
-    public function test_try_to_create_one_event_in_api_only_descricao(){
+    public function test_try_to_create_one_event_detail_in_api_only_id_evento(){
         $code=0;
         $logger = new Logger(new LoggerConfig());
         $config = new App();
-        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&descricao=teste';
-        $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/eventos'), $input, new UserAgent());
+        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&id_evento=2';
+        $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/detalhes-eventos'), $input, new UserAgent());
         $request->setMethod('POST');
         $request->setHeader('Accept','application/json');
         $request->setHeader('Content-Type','application/x-www-form-urlencoded');
@@ -151,7 +108,7 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
         $result = $this
         ->withLogger($logger)
         ->withRequest($request)
-        ->controller(\App\Controllers\EventosRest::class)
+        ->controller(\App\Controllers\DetalhesEventosRest::class)
         ->execute('create');
 
         $code = $result->response()->getStatusCode();
@@ -161,16 +118,17 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
         $this->assertEquals(HTTP_MESSAGE_ERROR_CREATE,$reason);
 
         $body = json_decode($result->getBody());
-        $this->assertEquals('Este campo é obrigatório, por favor preencha.',$body->messages->localizacao);
-        $this->assertEquals('Este campo é obrigatório, por favor preencha.',$body->messages->valor_full);
+        
+        $this->assertEquals('Este campo é obrigatório, por favor preencha.',$body->messages->data_evento_inicio);
+        $this->assertEquals('Este campo é obrigatório, por favor preencha.',$body->messages->data_evento_fim);
     
     }
-    public function test_try_to_create_one_event_in_api_only_descricao_localizacao(){
+    public function test_try_to_create_one_event_detail_in_api_only_id_evento_data_evento_inicio(){
         $code=0;
         $logger = new Logger(new LoggerConfig());
         $config = new App();
-        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&descricao=teste&localizacao=LocalizacaoTeste';
-        $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/eventos'), $input, new UserAgent());
+        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&id_evento=2&data_evento_inicio=2020-07-23%2000:00:00';
+        $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/detalhes-eventos'), $input, new UserAgent());
         $request->setMethod('POST');
         $request->setHeader('Accept','application/json');
         $request->setHeader('Content-Type','application/x-www-form-urlencoded');
@@ -179,7 +137,7 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
         $result = $this
         ->withLogger($logger)
         ->withRequest($request)
-        ->controller(\App\Controllers\EventosRest::class)
+        ->controller(\App\Controllers\DetalhesEventosRest::class)
         ->execute('create');
 
         $code = $result->response()->getStatusCode();
@@ -189,40 +147,15 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
         $this->assertEquals(HTTP_MESSAGE_ERROR_CREATE,$reason);
 
         $body = json_decode($result->getBody());
-        $this->assertEquals('Este campo é obrigatório, por favor preencha.',$body->messages->valor_full);
+        $this->assertEquals('Este campo é obrigatório, por favor preencha.',$body->messages->data_evento_fim);
 
     }
-    public function test_create_one_event_in_api_only_descricao_localizacao_valor_full(){
+    public function test_update_one_event_detail_in_api(){
         $code=0;
         $logger = new Logger(new LoggerConfig());
         $config = new App();
-        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&descricao=teste&localizacao=teste&valor_full=50.00';
-        $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/eventos'), $input, new UserAgent());
-        $request->setMethod('POST');
-        $request->setHeader('Accept','application/json');
-        $request->setHeader('Content-Type','application/x-www-form-urlencoded');
-        $request->appendHeader('Content-Type','charset=UTF-8');
-
-		$result = $this
-                ->withLogger($logger)
-                ->withRequest($request)
-				->controller(\App\Controllers\EventosRest::class)
-				->execute('create');
-        $body = json_decode($result->getBody());
-        $code = $result->response()->getStatusCode();
-        $reason = $result->response()->getReason();
-        $this->assertTrue($result->isOK());
-        $this->assertEquals(HTTP_CODE_CREATE,$code);
-        $this->assertEquals(HTTP_MESSAGE_CREATE,$reason);
-        $this->assertEquals(HTTP_CODE_CREATE,$body->status);
-        $this->assertEquals(HTTP_MESSAGE_CREATE,$body->messages);  
-    }
-    public function test_update_one_event_in_api(){
-        $code=0;
-        $logger = new Logger(new LoggerConfig());
-        $config = new App();
-        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&descricao=TEste1&localizacao=Localizacao&valor_full=50&valor_desconto=30';
-        $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/eventos'), $input, new UserAgent());
+        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&id_evento=1&data_evento_inicio=2020-07-23%2000:00:00&data_evento_fim=2020-07-23%2004:00:00';
+        $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/detalhes-eventos'), $input, new UserAgent());
         $request->setMethod('PUT');
         $request->setHeader('Accept','application/json');
         $request->setHeader('Content-Type','application/x-www-form-urlencoded');
@@ -231,7 +164,7 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
 		$result = $this
                 ->withLogger($logger)
                 ->withRequest($request)
-				->controller(\App\Controllers\EventosRest::class)
+				->controller(\App\Controllers\DetalhesEventosRest::class)
 				->execute('update',1);
         $body = json_decode($result->getBody());
         $code = $result->response()->getStatusCode();
@@ -242,12 +175,12 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
         $this->assertEquals(HTTP_CODE_OK,$body->status);
         $this->assertEquals(HTTP_MESSAGE_UPDATE_2,$body->messages);  
     }
-    public function test_update_one_event_in_api_only_descricao(){
+    public function test_update_one_event_detail_in_api_only_id_evento(){
         $code=0;
         $logger = new Logger(new LoggerConfig());
         $config = new App();
-        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&descricao=TEste2';
-        $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/eventos'), $input, new UserAgent());
+        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&id_evento=2';
+        $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/detalhes-eventos'), $input, new UserAgent());
         $request->setMethod('PUT');
         $request->setHeader('Accept','application/json');
         $request->setHeader('Content-Type','application/x-www-form-urlencoded');
@@ -256,8 +189,8 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
 		$result = $this
                 ->withLogger($logger)
                 ->withRequest($request)
-				->controller(\App\Controllers\EventosRest::class)
-				->execute('update',2);
+				->controller(\App\Controllers\DetalhesEventosRest::class)
+				->execute('update',1);
         $body = json_decode($result->getBody());
         $code = $result->response()->getStatusCode();
         $reason = $result->response()->getReason();
@@ -267,12 +200,12 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
         $this->assertEquals(HTTP_CODE_OK,$body->status);
         $this->assertEquals(HTTP_MESSAGE_UPDATE_2,$body->messages);  
     }
-    public function test_update_one_event_in_api_only_descricao_localizacao(){
+    public function test_update_one_event_detail_in_api_only_id_evento_data_evento_inicio(){
         $code=0;
         $logger = new Logger(new LoggerConfig());
         $config = new App();
-        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&descricao=TEste2&localizacao=Localizacao';
-        $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/eventos'), $input, new UserAgent());
+        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&id_evento=1&data_evento_inicio=2020-07-23%2000:00:00';
+        $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/detalhes-eventos'), $input, new UserAgent());
         $request->setMethod('PUT');
         $request->setHeader('Accept','application/json');
         $request->setHeader('Content-Type','application/x-www-form-urlencoded');
@@ -281,8 +214,8 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
 		$result = $this
                 ->withLogger($logger)
                 ->withRequest($request)
-				->controller(\App\Controllers\EventosRest::class)
-				->execute('update',2);
+				->controller(\App\Controllers\DetalhesEventosRest::class)
+				->execute('update',1);
         $body = json_decode($result->getBody());
         $code = $result->response()->getStatusCode();
         $reason = $result->response()->getReason();
@@ -292,37 +225,13 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
         $this->assertEquals(HTTP_CODE_OK,$body->status);
         $this->assertEquals(HTTP_MESSAGE_UPDATE_2,$body->messages);  
     }
-    public function test_update_one_event_in_api_only_descricao_localizacao_valor_full(){
+    /*
+    public function test_try_to_delete_one_event_detail_in_api(){
         $code=0;
         $logger = new Logger(new LoggerConfig());
         $config = new App();
-        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&descricao=TEste2&localizacao=Localizacao&valor_full=50';
-        $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/eventos'), $input, new UserAgent());
-        $request->setMethod('PUT');
-        $request->setHeader('Accept','application/json');
-        $request->setHeader('Content-Type','application/x-www-form-urlencoded');
-        $request->appendHeader('Content-Type','charset=UTF-8');
-
-		$result = $this
-                ->withLogger($logger)
-                ->withRequest($request)
-				->controller(\App\Controllers\EventosRest::class)
-				->execute('update',2);
-        $body = json_decode($result->getBody());
-        $code = $result->response()->getStatusCode();
-        $reason = $result->response()->getReason();
-        $this->assertTrue($result->isOK());
-        $this->assertEquals(HTTP_CODE_OK,$code);
-        $this->assertEquals(HTTP_MESSAGE_UPDATE,$reason);
-        $this->assertEquals(HTTP_CODE_OK,$body->status);
-        $this->assertEquals(HTTP_MESSAGE_UPDATE_2,$body->messages);  
-    }
-    public function test_try_to_delete_one_event_in_api(){
-        $code=0;
-        $logger = new Logger(new LoggerConfig());
-        $config = new App();
-        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&idEvento=10000';
-        $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/eventos'), $input, new UserAgent());
+        $input='';
+        $request = new IncomingRequest($config, new URI('http://tcc.localhost/api/detalhes-evento/10000'), $input, new UserAgent());
         $request->setMethod('DELETE');
         $request->setHeader('Accept','application/json');
         $request->setHeader('Content-Type','application/x-www-form-urlencoded');
@@ -331,24 +240,25 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
 		$result = $this
                 ->withLogger($logger)
                 ->withRequest($request)
-				->controller(\App\Controllers\EventosRest::class)
+				->controller(\App\Controllers\DetalhesEventosRest::class)
 				->execute('delete',10000);
         $body = json_decode($result->getBody());
         $code = $result->response()->getStatusCode();
         $reason = $result->response()->getReason();
+        var_dump($body);
         $this->assertTrue(!$result->isOK());
         $this->assertEquals(HTTP_CODE_ERROR_NOT_FOUND,$code);
         $this->assertEquals(HTTP_MESSAGE_ERROR_NOT_FOUND,$reason);
         $this->assertEquals(HTTP_CODE_ERROR_NOT_FOUND,$body->status);
         $this->assertEquals(HTTP_MESSAGE_ERROR_NOT_FOUND_2,$body->messages->error);  
-    }
-    public function test_delete_one_event_in_api(){
+    }*/
+    public function test_delete_one_event_detail_in_api(){
         $code=0;
         $logger = new Logger(new LoggerConfig());
         $config = new App();
         //Inserir um Item para depois deletar
-        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&descricao=teste&localizacao=teste&valor_full=50.00&valor_desconto=30.00';
-        $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/eventos'), $input, new UserAgent());
+        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&id_evento=2&data_evento_inicio=2020-07-23%2000:00:00&data_evento_fim=2020-07-23%2004:00:00';
+        $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/detalhes-eventos'), $input, new UserAgent());
         $request->setMethod('POST');
         $request->setHeader('Accept','application/json');
         $request->setHeader('Content-Type','application/x-www-form-urlencoded');
@@ -357,13 +267,13 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
 		$result = $this
                 ->withLogger($logger)
                 ->withRequest($request)
-				->controller(\App\Controllers\EventosRest::class)
+				->controller(\App\Controllers\DetalhesEventosRest::class)
 				->execute('create');
         $body = json_decode($result->getBody());
         $insertId = $body->id;
         //Deletar o item
-        $input="csrf_test_name=ecf83cff872a08d5c490a478402743b5&idEvento=$insertId";
-        $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/eventos'), $input, new UserAgent());
+        $input="csrf_test_name=ecf83cff872a08d5c490a478402743b5&id_evento=$insertId";
+        $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/detalhes-eventos'), $input, new UserAgent());
         $request->setMethod('DELETE');
         $request->setHeader('Accept','application/json');
         $request->setHeader('Content-Type','application/x-www-form-urlencoded');
@@ -372,7 +282,7 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
 		$result = $this
                 ->withLogger($logger)
                 ->withRequest($request)
-				->controller(\App\Controllers\EventosRest::class)
+				->controller(\App\Controllers\DetalhesEventosRest::class)
                 ->execute('delete',$insertId);
                 
         $body = json_decode($result->getBody());
