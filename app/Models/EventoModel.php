@@ -5,10 +5,11 @@ use CodeIgniter\Model;
 class EventoModel extends Model
 {
     protected $table = 'evento';
-    protected $allowedFields = ['descricao', 'localizacao','valor_full','valor_desconto'];
+    protected $allowedFields = ['descricao', 'localizacao','valor_full','valor_desconto','titulo'];
     protected $primaryKey = 'idEvento';
     protected $validationRules = [
         'descricao' => 'required|min_length[3]|max_length[255]',
+        'titulo' => 'required|min_length[3]|max_length[50]',
         'localizacao'  =>'required',
         'valor_full'  => 'required|regex_match[/^\$?[0-9\,]*[0-9\.]?[0-9]{0,2}$/]'
     ];
@@ -17,6 +18,10 @@ class EventoModel extends Model
             ['required'=>'Este campo é obrigatório, por favor preencha.',
             'min_length'=>'O campo deve conter no mínimo 3 caracteres',
             'max_lehgth'=>'O campo deve conter no máximo 255 caracteres'],
+        'titulo' =>  
+            ['required'=>'Este campo é obrigatório, por favor preencha.',
+            'min_length'=>'O campo deve conter no mínimo 3 caracteres',
+            'max_lehgth'=>'O campo deve conter no máximo 50 caracteres'],
         'localizacao'  => [
             'required'=>'Este campo é obrigatório, por favor preencha.'
         ],
@@ -54,17 +59,17 @@ class EventoModel extends Model
         return $builder->getRowArray();
                     
     }
-/*
-    public function find($id = false)
+    public function getAll()
     {
-        if ($id === false)
-        {
-            return false;
-        }
-    
-        return $this->asArray()
-                    ->where(['idEvento' => $id])
-                    ->first();
+     
+        $builder = $this->table('evento')
+        ->select('*')
+        ->join('detalhes_evento', 'evento.idEvento = detalhes_evento.id_evento')
+        ->get();
+        //$sql=$builder->getCompiledSelect();
+        $query=$builder->getResult();
+        return $query;
+        
+
     }
-*/
 }

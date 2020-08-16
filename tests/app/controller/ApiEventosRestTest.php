@@ -92,7 +92,7 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
         $code=0;
         $logger = new Logger(new LoggerConfig());
         $config = new App();
-        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&descricao=TEste1&localizacao=Localizacao&valor_full=50.00&valor_desconto=30.00';
+        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&titulo=teste1&descricao=TEste1&localizacao=Localizacao&valor_full=50.00&valor_desconto=30.00';
         $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/eventos'), $input, new UserAgent());
         $request->setMethod('POST');
         $request->setHeader('Accept','application/json');
@@ -125,9 +125,9 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
         $code = $result->response()->getStatusCode();
         $reason = $result->response()->getReason();
         $body = json_decode($result->getBody())[0];
-        
         $this->assertEquals(HTTP_CODE_OK,$code);
         $this->assertEquals(1,$body->idEvento);
+        $this->assertEquals('TEste1',$body->titulo);
         $this->assertEquals('TEste1',$body->descricao);
         $this->assertEquals("Localizacao",$body->localizacao);
         $this->assertEquals(50.0,$body->valor_full);
@@ -141,7 +141,7 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
         $code=0;
         $logger = new Logger(new LoggerConfig());
         $config = new App();
-        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&descricao=teste';
+        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&titulo=teste1&descricao=teste';
         $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/eventos'), $input, new UserAgent());
         $request->setMethod('POST');
         $request->setHeader('Accept','application/json');
@@ -169,7 +169,7 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
         $code=0;
         $logger = new Logger(new LoggerConfig());
         $config = new App();
-        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&descricao=teste&localizacao=LocalizacaoTeste';
+        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&titulo=teste1&descricao=teste&localizacao=LocalizacaoTeste';
         $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/eventos'), $input, new UserAgent());
         $request->setMethod('POST');
         $request->setHeader('Accept','application/json');
@@ -196,7 +196,7 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
         $code=0;
         $logger = new Logger(new LoggerConfig());
         $config = new App();
-        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&descricao=teste&localizacao=teste&valor_full=50.00';
+        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&titulo=teste1&descricao=teste&localizacao=teste&valor_full=50.00';
         $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/eventos'), $input, new UserAgent());
         $request->setMethod('POST');
         $request->setHeader('Accept','application/json');
@@ -221,7 +221,7 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
         $code=0;
         $logger = new Logger(new LoggerConfig());
         $config = new App();
-        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&descricao=TEste1&localizacao=Localizacao&valor_full=50&valor_desconto=30';
+        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&titulo=teste1&descricao=TEste1&localizacao=Localizacao&valor_full=50&valor_desconto=30';
         $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/eventos'), $input, new UserAgent());
         $request->setMethod('PUT');
         $request->setHeader('Accept','application/json');
@@ -246,7 +246,7 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
         $code=0;
         $logger = new Logger(new LoggerConfig());
         $config = new App();
-        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&descricao=TEste2';
+        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&titulo=teste1&descricao=TEste2';
         $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/eventos'), $input, new UserAgent());
         $request->setMethod('PUT');
         $request->setHeader('Accept','application/json');
@@ -271,7 +271,7 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
         $code=0;
         $logger = new Logger(new LoggerConfig());
         $config = new App();
-        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&descricao=TEste2&localizacao=Localizacao';
+        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&titulo=teste1&descricao=TEste2&localizacao=Localizacao';
         $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/eventos'), $input, new UserAgent());
         $request->setMethod('PUT');
         $request->setHeader('Accept','application/json');
@@ -296,7 +296,7 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
         $code=0;
         $logger = new Logger(new LoggerConfig());
         $config = new App();
-        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&descricao=TEste2&localizacao=Localizacao&valor_full=50';
+        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&titulo=teste1&descricao=TEste2&localizacao=Localizacao&valor_full=50';
         $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/eventos'), $input, new UserAgent());
         $request->setMethod('PUT');
         $request->setHeader('Accept','application/json');
@@ -347,7 +347,7 @@ class ApiEventosRestTest extends \CodeIgniter\Test\CIUnitTestCase
         $logger = new Logger(new LoggerConfig());
         $config = new App();
         //Inserir um Item para depois deletar
-        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&descricao=teste&localizacao=teste&valor_full=50.00&valor_desconto=30.00';
+        $input='csrf_test_name=ecf83cff872a08d5c490a478402743b5&titulo=teste1&descricao=teste&localizacao=teste&valor_full=50.00&valor_desconto=30.00';
         $request = new IncomingRequest($config, new URI('http://tcc.localhost.com/api/eventos'), $input, new UserAgent());
         $request->setMethod('POST');
         $request->setHeader('Accept','application/json');
