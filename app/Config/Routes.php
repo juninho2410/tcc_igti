@@ -32,6 +32,7 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 $routes->match(['get', 'post'], 'Eventos/create', 'Eventos::create');
+$routes->get('/api/eventos/calendar', 'EventosRest::getEventsInCalendar');
 $routes->resource('/api/eventos',['controller' => 'EventosRest']);
 $routes->resource('/api/detalhes-evento',['controller' => 'DetalhesEventosRest']);
 $routes->presenter('eventos', ['controller' =>'Eventos']);

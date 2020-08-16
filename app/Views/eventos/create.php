@@ -19,7 +19,15 @@
             
                 <?= csrf_field() ?>
                 <div class="form-group row">
-                    <label for="descricao" class="col-sm-2 col-form-label  col-form-label-sm"">Descrição</label>
+                    <label for="titulo" class="col-sm-2 col-form-label  col-form-label-sm">Titulo</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control form-control-sm" name="titulo" id="titulo" placeholder="Descrição do Evento"><?=isset($evento['titulo'])?$evento['titulo']:"";?></textarea>
+                        <div class="invalid-feedback">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="descricao" class="col-sm-2 col-form-label  col-form-label-sm">Descrição</label>
                     <div class="col-sm-10">
                         <textarea class="form-control form-control-sm" name="descricao" id="descricao" placeholder="Descrição do Evento"><?=isset($evento['descricao'])?$evento['descricao']:"";?></textarea>
                         <div class="invalid-feedback">
@@ -69,9 +77,10 @@
                       
                     </div>
                 </div>
-                <div class='col-md-5'>
-                  <div class="form-group">
-                    <div class="input-group date" id="data_evento_inicio" data-target-input="nearest">
+                  <div class="form-group row">
+                  <label for="title" class="col-sm-2 col-form-label">Data Inicio</label>
+                  <div class='col-sm-10'>
+                    <div class="input-group mb-3 date" id="data_evento_inicio" data-target-input="nearest">
                           <input type="text" class="form-control datetimepicker-input" data-target="#data_evento_inicio" name="data_evento_inicio"
                           value="<?php if(isset($evento['data_evento_inicio'])){$x=explode('-',$evento['data_evento_inicio']);$y=explode(' ',$x[2]); echo $y[0]."/".$x[1]."/".$x[0]." ".$y[1]; }?>"
                           />
@@ -81,16 +90,17 @@
                       </div>
                   </div>
               </div>
-              <div class='col-md-5'>
-                  <div class="form-group">
-                    <div class="input-group date" id="data_evento_fim" data-target-input="nearest">
-                          <input type="text" class="form-control datetimepicker-input" data-target="#data_evento_fim" name="data_evento_fim"
-                          value="<?php if(isset($evento['data_evento_fim'])){$x=explode('-',$evento['data_evento_fim']);$y=explode(' ',$x[2]);echo $y[0]."/".$x[1]."/".$x[0]." ".$y[1];}?>"
-                          />
-                          <div class="input-group-append" data-target="#data_evento_fim" data-toggle="datetimepicker">
-                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                          </div>
-                      </div>
+                  <div class="form-group row">
+                    <label for="title" class="col-sm-2 col-form-label">Data Fim</label>
+                  <div class='col-sm-10'>
+                      <div class="input-group mb-3 date" id="data_evento_fim" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#data_evento_fim" name="data_evento_fim"
+                            value="<?php if(isset($evento['data_evento_fim'])){$x=explode('-',$evento['data_evento_fim']);$y=explode(' ',$x[2]);echo $y[0]."/".$x[1]."/".$x[0]." ".$y[1];}?>"
+                            />
+                            <div class="input-group-append" data-target="#data_evento_fim" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
                   </div>
               </div>
 

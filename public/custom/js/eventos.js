@@ -38,7 +38,7 @@ TCC.EVENTO = (function () {
     data = {formData:$(this).serializeArray()}
     var idEvento = $("input[name='"+formFields.id+"']").val()
     var id_detalhes_evento = $("input[name='"+formFields.id_detalhes_evento+"']").val()
-    fieldsEvento = ['descricao','localizacao','valor_full','valor_desconto']
+    fieldsEvento = ['titulo','descricao','localizacao','valor_full','valor_desconto']
     fieldsDetalhesEvento = [
       'id_evento',
       'data_evento_inicio', 
